@@ -64,7 +64,7 @@ function App() {
 
   return (
     <>
-    <Header/>
+    <Header /> 
     <main>
       <article>
         <Herosection />
