@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./style.css";
 import Header from "./component/Header";
 import Footer from "./component/Footer";
@@ -8,9 +8,11 @@ import Aboutsection from "./component/Aboutsection";
 import Doctorsection from "./component/Doctorsection";
 import CTAsection from "./component/CTAsection";
 import Blogsection from "./component/Blogsection";
+import AppointmentForm from "./component/Appointmentform";
+import Bookingsection from "./component/Bookingsection";
+
 function App() {
   useEffect(() => {
-    // Helper function
     const addEventOnElem = function (elem, type, callback) {
       if (elem.length > 1) {
         for (let i = 0; i < elem.length; i++) {
@@ -21,7 +23,6 @@ function App() {
       }
     };
 
-    // Navbar toggle
     const navbar = document.querySelector("[data-navbar]");
     const navbarLinks = document.querySelectorAll("[data-nav-link]");
     const navbarToggler = document.querySelector("[data-nav-toggler]");
@@ -40,7 +41,6 @@ function App() {
 
     addEventOnElem(navbarLinks, "click", closeNav);
 
-    // Header active
     const header = document.querySelector("[data-header]");
     const backTopBtn = document.querySelector("[data-back-top-btn]");
 
@@ -56,26 +56,60 @@ function App() {
 
     window.addEventListener("scroll", onScroll);
 
-    // Cleanup listeners when component unmounts
     return () => {
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
 
+  // State for form and bookings
+  const [showForm, setShowForm] = useState(false);
+  const [bookings, setBookings] = useState([]);
+
+  // Callback when booking succeeds
+  const handleBookingSuccess = (booking) => {
+    setBookings((prev) => [booking, ...prev]); // latest on top
+    setShowForm(false); // close form after booking
+  };
+
   return (
     <>
-    <Header /> 
-    <main>
-      <article>
-        <Herosection />
-        <Servicesection/>
-        <Aboutsection />
-        <Doctorsection />
-        <CTAsection />
-        <Blogsection />
-      </article>
-    </main>
-    <Footer/>
+      <Header />
+
+      <main>
+        <article>
+          <Herosection />
+
+          {/* ✅ My Bookings Section */}
+          <Bookingsection bookings={bookings} />
+
+          <Servicesection />
+          <Aboutsection />
+          <Doctorsection />
+          <CTAsection />
+
+          {/* Book Appointment Button */}
+          <div style={{ textAlign: "center", margin: "20px" }}>
+            <button 
+              onClick={() => setShowForm(true)} 
+              className="btn"
+            >
+              Book Appointment
+            </button>
+          </div>
+
+          {/* Show Appointment Form */}
+          {showForm && (
+            <AppointmentForm 
+              onClose={() => setShowForm(false)} 
+              onBookingSuccess={handleBookingSuccess} 
+            />
+          )}
+
+          <Blogsection />
+        </article>
+      </main>
+
+      <Footer />
     </>
   );
 }

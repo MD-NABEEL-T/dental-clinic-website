@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Appointmentform.css";
 
-export default function Appointmentform({ onClose }) {
+export default function Appointmentform({ onClose, onBookingSuccess }) {
   const [formData, setFormData] = useState({
     fullName: "",
     dob: "",
@@ -14,12 +14,11 @@ export default function Appointmentform({ onClose }) {
   });
 
   const [successMessage, setSuccessMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  // ✅ Your latest Google Apps Script Web App URL
   const SCRIPT_URL =
     "https://script.google.com/macros/s/AKfycbxbUtk0a705fzzhrzMloGQIkaZxIdTwM_X6II7tfWS78QPiPNM6D9ZcTJOCz473lD0i/exec";
 
-  // handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -28,14 +27,14 @@ export default function Appointmentform({ onClose }) {
     }));
   };
 
-  // handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // disable button
 
     try {
       await fetch(SCRIPT_URL, {
         method: "POST",
-        mode: "no-cors", // important for Google Scripts
+        mode: "no-cors",
         headers: {
           "Content-Type": "application/json",
         },
@@ -43,12 +42,16 @@ export default function Appointmentform({ onClose }) {
       });
 
       setSuccessMessage("✅ Appointment booked successfully!");
+      onBookingSuccess(formData); // send booking back to homepage
+
       setTimeout(() => {
-        setSuccessMessage("");
         onClose();
-      }, 2000);
+      }, 1500);
+
     } catch (error) {
       console.error("Error!", error.message);
+    } finally {
+      setLoading(false); // re-enable button
     }
   };
 
@@ -68,6 +71,8 @@ export default function Appointmentform({ onClose }) {
             onChange={handleChange}
             required
           />
+          <p>D.O.B</p>
+
           <input
             type="date"
             name="dob"
@@ -94,6 +99,7 @@ export default function Appointmentform({ onClose }) {
             <option value="Male">Male</option>
             <option value="Female">Female</option>
           </select>
+          <p>Appointment date :</p>
 
           <input
             type="date"
@@ -102,6 +108,9 @@ export default function Appointmentform({ onClose }) {
             onChange={handleChange}
             required
           />
+
+          <p>Appointment timing:</p>
+
           <input
             type="time"
             name="appointmentTime"
@@ -133,7 +142,9 @@ export default function Appointmentform({ onClose }) {
             <option value="Dr. John">Dr. John</option>
           </select>
 
-          <button type="submit">Book Appointment</button>
+          <button type="submit" disabled={loading}>
+            {loading ? "Booking..." : "Book Appointment"}
+          </button>
         </form>
 
         {successMessage && <div className="success-msg">{successMessage}</div>}

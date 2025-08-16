@@ -1178,3 +1178,54 @@ body {
   .cta-banner { margin-block-start: -120px; }
 
 }
+
+
+/* 
+
+  BOOKINGS SECTIO
+
+*/
+
+#bookings-section {
+  width: 100%;
+  scroll-margin-top: 120px; /* adjust to your header’s height */
+}
+
+.bookings-section {
+  margin: 150px auto 40px auto; /* extra top margin for sticky navbar */
+  padding: 25px;
+  max-width: 700px;
+  background: linear-gradient(145deg, #f0f4ff, #ffffff);
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  
+}
+
+.bookings-section h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 26px;
+  color: #007BFF;
+  font-weight: 600;
+}
+
+.booking-card {
+  background: #fff;
+  padding: 20px 40px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  border-left: 6px solid #007BFF;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.booking-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.booking-card p {
+  margin: 5px 0;
+  color: #333;
+  font-size: 15px;
+}

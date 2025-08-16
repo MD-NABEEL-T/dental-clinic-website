@@ -63,6 +63,11 @@ export default function Header() {
                   </a>
                 </li>
                 <li>
+                  <a href="#bookings-section" className="navbar-link" data-nav-link>
+                    My Bookings
+                    </a>
+                </li>
+                <li>
                   <a href="#service" className="navbar-link" data-nav-link>
                     Services
                   </a>
