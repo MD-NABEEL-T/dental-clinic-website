@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import Appointmentform from "./Appointmentform";
 
-export default function Header() {
-  const [showForm, setShowForm] = useState(false);
+export default function Header({ onBookClick }) { // Receive onBookClick prop
+  const [navOpen, setNavOpen] = useState(false); 
 
   return (
     <>
@@ -55,68 +54,94 @@ export default function Header() {
               Dentelo.
             </a>
 
-            <nav className="navbar container" data-navbar>
+            {/* 👇 Add conditional "active" class for mobile menu */}
+            <nav className={`navbar container ${navOpen ? "active" : ""}`} data-navbar>
               <ul className="navbar-list">
                 <li>
-                  <a href="#home" className="navbar-link" data-nav-link>
+                  <a
+                    href="#home"
+                    className="navbar-link"
+                    data-nav-link
+                    onClick={() => setNavOpen(false)} // close menu on click
+                  >
                     Home
                   </a>
                 </li>
                 <li>
-                  <a href="#bookings-section" className="navbar-link" data-nav-link>
+                  <a
+                    href="#bookings-section"
+                    className="navbar-link"
+                    data-nav-link
+                    onClick={() => setNavOpen(false)}
+                  >
                     My Bookings
-                    </a>
+                  </a>
                 </li>
                 <li>
-                  <a href="#service" className="navbar-link" data-nav-link>
+                  <a
+                    href="#service"
+                    className="navbar-link"
+                    data-nav-link
+                    onClick={() => setNavOpen(false)}
+                  >
                     Services
                   </a>
                 </li>
                 <li>
-                  <a href="#about" className="navbar-link" data-nav-link>
+                  <a
+                    href="#about"
+                    className="navbar-link"
+                    data-nav-link
+                    onClick={() => setNavOpen(false)}
+                  >
                     About Us
                   </a>
                 </li>
                 <li>
-                  <a href="#blog" className="navbar-link" data-nav-link>
+                  <a
+                    href="#blog"
+                    className="navbar-link"
+                    data-nav-link
+                    onClick={() => setNavOpen(false)}
+                  >
                     Blog
                   </a>
                 </li>
                 <li>
-                  <a href="#footer" className="navbar-link" data-nav-link>
+                  <a
+                    href="#footer"
+                    className="navbar-link"
+                    data-nav-link
+                    onClick={() => setNavOpen(false)}
+                  >
                     Contact
                   </a>
                 </li>
               </ul>
             </nav>
 
-            {/* Open form when clicked */}
-            <button onClick={() => setShowForm(true)} className="btn">
+            {/* Use the onBookClick prop from App.jsx */}
+            <button onClick={onBookClick} className="btn">
               Book appointment
             </button>
 
+            {/* 👇 Toggle button updates navOpen */}
             <button
               className="nav-toggle-btn"
               aria-label="Toggle menu"
-              data-nav-toggler
+              onClick={() => setNavOpen(!navOpen)}
             >
               <ion-icon
-                name="menu-sharp"
+                name={navOpen ? "close-sharp" : "menu-sharp"}
                 aria-hidden="true"
                 className="menu-icon"
-              ></ion-icon>
-              <ion-icon
-                name="close-sharp"
-                aria-hidden="true"
-                className="close-icon"
               ></ion-icon>
             </button>
           </div>
         </div>
       </header>
 
-      {/* Render Appointmentform conditionally */}
-      {showForm && <Appointmentform onClose={() => setShowForm(false)} />}
+      {/* REMOVED FORM RENDERING - Now handled in App.jsx */}
     </>
   );
 }

@@ -185,14 +185,14 @@ export default function Footer() {
       <div class="container">
 
         <p class="copyright">
-          &copy; 2022 All Rights Reserved by codewithsadee.
+          &copy; 2025 All Rights Reserved by Nabeel .
         </p>
 
         <ul class="social-list">
 
           <li>
             <a href="#" class="social-link">
-              <ion-icon name="logo-facebook"></ion-icon>
+              <ion-icon name="logo-linkedin"></ion-icon>
             </a>
           </li>
 
@@ -204,7 +204,7 @@ export default function Footer() {
 
           <li>
             <a href="#" class="social-link">
-              <ion-icon name="logo-twitter"></ion-icon>
+              <ion-icon name="logo-github"></ion-icon>
             </a>
           </li>
 

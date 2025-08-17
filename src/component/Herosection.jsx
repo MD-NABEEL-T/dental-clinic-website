@@ -21,7 +21,7 @@ export default function Herosection() {
               tristique, commodo gravida lectus non.
             </p>
 
-            <form action="" className="hero-form">
+            {/* <form action="" className="hero-form">
               <input
                 type="email"
                 name="email_address"
@@ -34,7 +34,7 @@ export default function Herosection() {
               <button type="submit" className="btn">
                 Get Call Back
               </button>
-            </form>
+            </form> */}
           </div>
 
           <figure className="hero-banner">
