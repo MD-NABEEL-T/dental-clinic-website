@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Appointmentform.css";
-
+// this is the updated form submission
 export default function Appointmentform({ onClose, onBookingSuccess }) {
   const [formData, setFormData] = useState({
     fullName: "",
@@ -26,7 +26,7 @@ export default function Appointmentform({ onClose, onBookingSuccess }) {
       [name]: value,
     }));
   };
-
+   
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
