@@ -1178,3 +1178,45 @@ body {
   .cta-banner { margin-block-start: -120px; }
 
 }
+
+
+/* 
+
+  BOOKINGS SECTIO
+
+*/
+
+/* Center the booking section container */
+#bookings-section {
+  margin: 40px auto;
+  max-width: 1000px;
+  padding: 0 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center; /* Center text inside container */
+}
+
+/* Center the table and allow it to shrink-wrap */
+.bookings-table {
+  margin: 0 auto; /* Center the table horizontally */
+  width: auto; /* Allow table width to fit content */
+  border-collapse: collapse;
+  box-shadow: 0 2px 8px rgba(26, 84, 226, 0.1);
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Center text inside table cells */
+.bookings-table th,
+.bookings-table td {
+  text-align: center;
+  padding: 12px 15px;
+}
+
+/* Center the no bookings message */
+.bookings-section p {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #666;
+  padding: 30px 0;
+}
