@@ -17,7 +17,7 @@ export default function Appointmentform({ onClose, onBookingSuccess }) {
   const [loading, setLoading] = useState(false);
 
   const SCRIPT_URL =
-    "https://script.google.com/macros/s/AKfycbzY-vWcH4KfzqxrzriiGtHQayvS3mam4tjWuQ6oFMUe20U9Zc2SyFzVf2OUGTl_vLvv/exec";
+    "https://script.google.com/macros/s/AKfycbwUQfuqpBnLNGqXKDnpPV0317nidnSE4aESSsisEnvjz_2CnS5J2GKeRrrm_hN8eTRH/exec";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,22 +29,38 @@ export default function Appointmentform({ onClose, onBookingSuccess }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // disable button
+    setLoading(true);
 
-    console.log("Submitting form data:", formData); // Log form data to console
+    console.log("Submitting form data:", formData);
 
     try {
+      // ✅ send as FormData instead of JSON (better for Apps Script)
+      const form = new FormData();
+      for (let key in formData) {
+        form.append(key, formData[key]);
+      }
+
       await fetch(SCRIPT_URL, {
         method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        body: form,
       });
 
+      console.log("Form sent to Google Sheets");
+
       setSuccessMessage("✅ Appointment booked successfully!");
-      onBookingSuccess(formData); // send booking back to homepage
+      onBookingSuccess(formData);
+
+      // Reset form fields
+      setFormData({
+        fullName: "",
+        dob: "",
+        phone: "",
+        gender: "",
+        appointmentDate: "",
+        appointmentTime: "",
+        service: "",
+        doctor: "",
+      });
 
       setTimeout(() => {
         onClose();
@@ -52,7 +68,7 @@ export default function Appointmentform({ onClose, onBookingSuccess }) {
     } catch (error) {
       console.error("Error!", error.message);
     } finally {
-      setLoading(false); // re-enable button
+      setLoading(false);
     }
   };
 
