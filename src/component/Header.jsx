@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 
+
+
 export default function Header({ onBookClick }) { // Receive onBookClick prop
   const [navOpen, setNavOpen] = useState(false); 
 
   return (
     <>
       <header className="header">
+
         <div className="header-top">
           <div className="container">
             <ul className="contact-list">
@@ -22,6 +25,7 @@ export default function Header({ onBookClick }) { // Receive onBookClick prop
                 </a>
               </li>
             </ul>
+
 
             <ul className="social-list">
               <li>
@@ -47,6 +51,8 @@ export default function Header({ onBookClick }) { // Receive onBookClick prop
             </ul>
           </div>
         </div>
+
+
 
         <div className="header-bottom" data-header>
           <div className="container">
@@ -140,6 +146,7 @@ export default function Header({ onBookClick }) { // Receive onBookClick prop
           </div>
         </div>
       </header>
+
 
       {/* REMOVED FORM RENDERING - Now handled in App.jsx */}
     </>

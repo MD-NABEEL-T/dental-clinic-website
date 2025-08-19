@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./style.css";
@@ -10,11 +11,13 @@ import Aboutsection from "./component/Aboutsection";
 import Doctorsection from "./component/Doctorsection";
 import CTAsection from "./component/CTAsection";
 import Blogsection from "./component/Blogsection";
+
 import Bookingsection from "./component/Bookingsection";
 
 function App() {
   // Navbar + Scroll Logic
   useEffect(() => {
+
     const addEventOnElem = (elem, type, callback) => {
       if (!elem) return;
       if (elem.length && elem.length > 1) {
@@ -57,7 +60,13 @@ function App() {
       }
     };
 
-    window.addEventListener("scroll", onScroll);
+          {showForm && (
+            <AppointmentForm 
+              onClose={() => setShowForm(false)} 
+              onBookingSuccess={handleBookingSuccess} 
+            />
+          )}
+
 
     return () => {
       window.removeEventListener("scroll", onScroll);
