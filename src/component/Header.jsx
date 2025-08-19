@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import AppointmentForm from "./Appointmentform"; // make sure path is correct
 
-export default function Header({ onBookingSuccess }) {
-  const [showForm, setShowForm] = useState(false);
+
+
+export default function Header({ onBookClick }) { // Receive onBookClick prop
+  const [navOpen, setNavOpen] = useState(false); 
 
   return (
     <>
       <header className="header">
-        {/* Top Bar */}
+
         <div className="header-top">
           <div className="container">
             <ul className="contact-list">
@@ -24,54 +25,130 @@ export default function Header({ onBookingSuccess }) {
                 </a>
               </li>
             </ul>
+
+
             <ul className="social-list">
-              <li><a href="#" className="social-link"><ion-icon name="logo-facebook"></ion-icon></a></li>
-              <li><a href="#" className="social-link"><ion-icon name="logo-instagram"></ion-icon></a></li>
-              <li><a href="#" className="social-link"><ion-icon name="logo-twitter"></ion-icon></a></li>
-              <li><a href="#" className="social-link"><ion-icon name="logo-youtube"></ion-icon></a></li>
+              <li>
+                <a href="#" className="social-link">
+                  <ion-icon name="logo-facebook"></ion-icon>
+                </a>
+              </li>
+              <li>
+                <a href="#" className="social-link">
+                  <ion-icon name="logo-instagram"></ion-icon>
+                </a>
+              </li>
+              <li>
+                <a href="#" className="social-link">
+                  <ion-icon name="logo-twitter"></ion-icon>
+                </a>
+              </li>
+              <li>
+                <a href="#" className="social-link">
+                  <ion-icon name="logo-youtube"></ion-icon>
+                </a>
+              </li>
             </ul>
           </div>
         </div>
 
-        {/* Bottom Navigation */}
+
+
         <div className="header-bottom" data-header>
           <div className="container">
-            <a href="#" className="logo">Dentelo.</a>
-            <nav className="navbar container" data-navbar>
+            <a href="#" className="logo">
+              Dentelo.
+            </a>
+
+            {/* 👇 Add conditional "active" class for mobile menu */}
+            <nav className={`navbar container ${navOpen ? "active" : ""}`} data-navbar>
               <ul className="navbar-list">
-                <li><a href="#home" className="navbar-link" data-nav-link>Home</a></li>
-                <li><a href="#service" className="navbar-link" data-nav-link>Services</a></li>
-                <li><a href="#about" className="navbar-link" data-nav-link>About Us</a></li>
-                <li><a href="#blog" className="navbar-link" data-nav-link>Blog</a></li>
-                <li><a href="#footer" className="navbar-link" data-nav-link>Contact</a></li>
+                <li>
+                  <a
+                    href="#home"
+                    className="navbar-link"
+                    data-nav-link
+                    onClick={() => setNavOpen(false)} // close menu on click
+                  >
+                    Home
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#bookings-section"
+                    className="navbar-link"
+                    data-nav-link
+                    onClick={() => setNavOpen(false)}
+                  >
+                    My Bookings
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#service"
+                    className="navbar-link"
+                    data-nav-link
+                    onClick={() => setNavOpen(false)}
+                  >
+                    Services
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#about"
+                    className="navbar-link"
+                    data-nav-link
+                    onClick={() => setNavOpen(false)}
+                  >
+                    About Us
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#blog"
+                    className="navbar-link"
+                    data-nav-link
+                    onClick={() => setNavOpen(false)}
+                  >
+                    Blog
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#footer"
+                    className="navbar-link"
+                    data-nav-link
+                    onClick={() => setNavOpen(false)}
+                  >
+                    Contact
+                  </a>
+                </li>
               </ul>
             </nav>
 
-            {/* Book Appointment Button */}
-            <button className="btn" onClick={() => setShowForm(true)}>Book Appointment</button>
+            {/* Use the onBookClick prop from App.jsx */}
+            <button onClick={onBookClick} className="btn">
+              Book appointment
+            </button>
 
-            <button className="nav-toggle-btn" aria-label="Toggle menu" data-nav-toggler>
-              <ion-icon name="menu-sharp" className="menu-icon"></ion-icon>
-              <ion-icon name="close-sharp" className="close-icon"></ion-icon>
+            {/* 👇 Toggle button updates navOpen */}
+            <button
+              className="nav-toggle-btn"
+              aria-label="Toggle menu"
+              onClick={() => setNavOpen(!navOpen)}
+            >
+              <ion-icon
+                name={navOpen ? "close-sharp" : "menu-sharp"}
+                aria-hidden="true"
+                className="menu-icon"
+              ></ion-icon>
             </button>
           </div>
         </div>
       </header>
 
-      {showForm && (
-        <div className="modal-overlay" onClick={() => setShowForm(false)}>
-          <div className="modal" onClick={e => e.stopPropagation()}>
-            <button className="close-btn" onClick={() => setShowForm(false)}>×</button>
-            <AppointmentForm
-              onClose={() => setShowForm(false)}
-              onBookingSuccess={(booking) => {
-                onBookingSuccess(booking); // pass booking to parent
-                setShowForm(false);
-              }}
-            />
-          </div>
-        </div>
-      )}
+
+      {/* REMOVED FORM RENDERING - Now handled in App.jsx */}
     </>
   );
 }
