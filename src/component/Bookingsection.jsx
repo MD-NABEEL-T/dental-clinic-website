@@ -5,7 +5,7 @@ import React from "react";
 export default function Bookingsection({ bookings }) {
   return (
 
-    <section className="bookings-section">
+    <section className="bookings-section" >
       <h2 className="section-title">My Appointments</h2>
       
       {bookings.length === 0 ? (

@@ -9,7 +9,7 @@ import Herosection from "./component/Herosection";
 import Servicesection from "./component/Servicesection";
 import Aboutsection from "./component/Aboutsection";
 import Doctorsection from "./component/Doctorsection";
-import CTAsection from "./component/CTAsection";
+// import CTAsection from "./component/CTAsection";
 import Blogsection from "./component/Blogsection";
 import Bookingsection from "./component/Bookingsection";
 
@@ -155,10 +155,11 @@ function App() {
           <Aboutsection />
           <Doctorsection />
 
-          <CTAsection onBookClick={() => setShowForm(true)} />
+          {/* <CTAsection onBookClick={() => setShowForm(true)} /> */}
 
           {/* Appointment Form Modal */}
           {showForm && (
+            <div className="appointment-container">
             <div className={`appointment-modal ${showForm ? "active" : ""}`}>
               <div className="modal-content">
                 <button
@@ -273,6 +274,7 @@ function App() {
                   </button>
                 </form>
               </div>
+            </div>
             </div>
           )}
 
