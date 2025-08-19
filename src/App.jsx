@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./style.css";
+
 import Header from "./component/Header";
 import Footer from "./component/Footer";
 import Herosection from "./component/Herosection";
@@ -11,13 +11,11 @@ import Aboutsection from "./component/Aboutsection";
 import Doctorsection from "./component/Doctorsection";
 import CTAsection from "./component/CTAsection";
 import Blogsection from "./component/Blogsection";
-
 import Bookingsection from "./component/Bookingsection";
 
 function App() {
   // Navbar + Scroll Logic
   useEffect(() => {
-
     const addEventOnElem = (elem, type, callback) => {
       if (!elem) return;
       if (elem.length && elem.length > 1) {
@@ -60,13 +58,7 @@ function App() {
       }
     };
 
-          {showForm && (
-            <AppointmentForm 
-              onClose={() => setShowForm(false)} 
-              onBookingSuccess={handleBookingSuccess} 
-            />
-          )}
-
+    window.addEventListener("scroll", onScroll);
 
     return () => {
       window.removeEventListener("scroll", onScroll);
@@ -87,6 +79,9 @@ function App() {
     doctor: ""
   });
 
+  // get current userId (phone/email) from localStorage if exists
+  const [userId, setUserId] = useState(localStorage.getItem("userId") || "");
+
   // Form handling
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -94,28 +89,32 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // Create new booking
+
     const newBooking = { ...formData };
-    
-    // Update state
-    setBookings([newBooking, ...bookings]);
-    setShowForm(false);
-    
-    // Save to localStorage
-    localStorage.setItem("myBookings", JSON.stringify([newBooking, ...bookings]));
-    
-    // Save user identifier
-    if (newBooking.email) {
-      localStorage.setItem("userEmailOrPhone", newBooking.email);
-    } else if (newBooking.phone) {
-      localStorage.setItem("userEmailOrPhone", newBooking.phone);
+
+    // use phone as unique identifier
+    const currentUserId = newBooking.phone;
+    if (!currentUserId) {
+      toast.error("⚠️ Please enter your phone number");
+      return;
     }
-    
-    // Show success message
+
+    setUserId(currentUserId);
+    localStorage.setItem("userId", currentUserId);
+
+    // load existing bookings for this user
+    const existing = JSON.parse(localStorage.getItem(`bookings_${currentUserId}`)) || [];
+
+    // save updated list
+    const updatedBookings = [newBooking, ...existing];
+    localStorage.setItem(`bookings_${currentUserId}`, JSON.stringify(updatedBookings));
+
+    // update state
+    setBookings(updatedBookings);
+    setShowForm(false);
+
     toast.success("🎉 Appointment booked successfully!");
-    
-    // Reset form
+
     setFormData({
       fullName: "",
       dob: "",
@@ -128,45 +127,47 @@ function App() {
     });
   };
 
-  // Load bookings
+  // Load bookings for the logged-in user
   useEffect(() => {
-    const saved = localStorage.getItem("myBookings");
-    if (saved) setBookings(JSON.parse(saved));
-  }, []);
+    if (userId) {
+      const saved = JSON.parse(localStorage.getItem(`bookings_${userId}`)) || [];
+      setBookings(saved);
+    }
+  }, [userId]);
 
   return (
     <>
-    <Header onBookClick={() => setShowForm(true)} />
-      
+      <Header onBookClick={() => setShowForm(true)} />
+
       <main>
         <article>
           <Herosection />
-          
+
           {/* Mobile booking button */}
           <div className="mobile-book-btn">
             <button onClick={() => setShowForm(true)} className="btn">
               Book Appointment
             </button>
           </div>
-          
+
           <Bookingsection bookings={bookings} />
           <Servicesection />
           <Aboutsection />
           <Doctorsection />
-          
+
           <CTAsection onBookClick={() => setShowForm(true)} />
-          
+
           {/* Appointment Form Modal */}
           {showForm && (
-            <div className={`appointment-modal ${showForm ? 'active' : ''}`}>
+            <div className={`appointment-modal ${showForm ? "active" : ""}`}>
               <div className="modal-content">
-                <button 
+                <button
                   className="close-btn"
-                  onClick={() => setShowForm(false)}  
+                  onClick={() => setShowForm(false)}
                 >
                   ×
                 </button>
-                
+
                 <h2>Book Appointment</h2>
                 <form onSubmit={handleSubmit}>
                   <label>
@@ -179,7 +180,7 @@ function App() {
                       required
                     />
                   </label>
-                  
+
                   <label>
                     Date of Birth:
                     <input
@@ -190,7 +191,7 @@ function App() {
                       required
                     />
                   </label>
-                  
+
                   <label>
                     Phone:
                     <input
@@ -201,7 +202,7 @@ function App() {
                       required
                     />
                   </label>
-                  
+
                   <label>
                     Gender:
                     <select
@@ -216,7 +217,7 @@ function App() {
                       <option value="Other">Other</option>
                     </select>
                   </label>
-                  
+
                   <label>
                     Appointment Date:
                     <input
@@ -227,7 +228,7 @@ function App() {
                       required
                     />
                   </label>
-                  
+
                   <label>
                     Appointment Time:
                     <input
@@ -238,7 +239,7 @@ function App() {
                       required
                     />
                   </label>
-                  
+
                   <label>
                     Service:
                     <select
@@ -252,7 +253,7 @@ function App() {
                       <option value="Whitening">Whitening</option>
                     </select>
                   </label>
-                  
+
                   <label>
                     Doctor:
                     <select
@@ -266,7 +267,7 @@ function App() {
                       <option value="Nick">Dr. Nick</option>
                     </select>
                   </label>
-                  
+
                   <button type="submit" className="btn">
                     Submit
                   </button>
@@ -274,11 +275,11 @@ function App() {
               </div>
             </div>
           )}
-          
+
           <Blogsection />
         </article>
       </main>
-      
+
       <Footer />
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
     </>
